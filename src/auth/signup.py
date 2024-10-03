@@ -50,18 +50,20 @@ def signup():
   ]
 
   password_errors = []
-  for condition in password_conditions:
-      if not condition(new_password):
-          password_errors.append("Password must " + {
-              password_conditions[0]: "contain at least one uppercase letter",
-              password_conditions[1]: "contain at least one lowercase letter",
-              password_conditions[2]: "contain at least one digit",
-              password_conditions[3]: "be at least 8 characters long",
-          }[condition])
+  for i, condition in enumerate(password_conditions):
+    if not condition(new_password):
+        if i == 0:
+            password_errors.append("contain at least one uppercase letter")
+        elif i == 1:
+            password_errors.append("contain at least one lowercase letter")
+        elif i == 2:
+            password_errors.append("contain at least one digit")
+        elif i == 3:
+            password_errors.append("be at least 8 characters long")
 
-  if password_errors:
-      st.warning("Password does not meet the requirements: " + ", ".join(password_errors), icon="⚠️")
-      return
+    if password_errors:
+        st.warning("Password does not meet the requirements: " + ", ".join(["Password must " + error for error in password_errors]), icon="⚠️")
+        return
 
 
   # Handle Role-Based Key Inputs
