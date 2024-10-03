@@ -53,13 +53,13 @@ def signup():
   for i, condition in enumerate(password_conditions):
     if not condition(new_password):
         if i == 0:
-            password_errors.append("contain at least one uppercase letter")
+          password_errors.append("contain at least one uppercase letter")
         elif i == 1:
-            password_errors.append("contain at least one lowercase letter")
+          password_errors.append("contain at least one lowercase letter")
         elif i == 2:
-            password_errors.append("contain at least one digit")
+          password_errors.append("contain at least one digit")
         elif i == 3:
-            password_errors.append("be at least 8 characters long")
+          password_errors.append("be at least 8 characters long")
 
     if password_errors:
         st.warning("Password does not meet the requirements: " + ", ".join(["Password must " + error for error in password_errors]), icon="⚠️")
