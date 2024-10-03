@@ -41,6 +41,29 @@ def signup():
   with col4:
     new_repeat_password = st.text_input('🔑 Re-type your password:', type='password')
 
+  # Password validation rules
+  password_conditions = [
+    lambda s: any(x.isupper() for x in s),  # at least one uppercase letter
+    lambda s: any(x.islower() for x in s),  # at least one lowercase letter
+    lambda s: any(x.isdigit() for x in s),  # at least one digit
+    lambda s: len(s) >= 8,  # at least 8 characters long
+  ]
+
+  password_errors = []
+  for condition in password_conditions:
+      if not condition(new_password):
+          password_errors.append("Password must " + {
+              password_conditions[0]: "contain at least one uppercase letter",
+              password_conditions[1]: "contain at least one lowercase letter",
+              password_conditions[2]: "contain at least one digit",
+              password_conditions[3]: "be at least 8 characters long",
+          }[condition])
+
+  if password_errors:
+      st.warning("Password does not meet the requirements: " + ", ".join(password_errors), icon="⚠️")
+      return
+
+
   # Handle Role-Based Key Inputs
   admin_key = st.secrets["ADMIN_KEY"]
   super_admin_key = st.secrets["SUPER_ADMIN_KEY"]
